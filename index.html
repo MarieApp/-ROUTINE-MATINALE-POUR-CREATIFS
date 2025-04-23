@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routine Matinale pour Créatifs - 30 Minutes</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFFAF0;
+            color: #4B5563;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        .creative-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .creative-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .brand-footer {
+            background: linear-gradient(90deg, #F9FAFB 0%, #EFF6FF 100%);
+            border-top: 1px solid #E5E7EB;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-yellow-50 to-purple-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-purple-800 mb-3">Éveil Créatif</h1>
+            <p class="text-xl text-gray-600">Votre routine matinale de 30 minutes pour stimuler l'inspiration et la créativité</p>
+        </header>
+
+        <!-- Timer Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold text-purple-700 mb-4 md:mb-0">Minuteur de Routine</h2>
+                <div class="flex space-x-3 no-print">
+                    <button id="startBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-play mr-2"></i> Démarrer
+                    </button>
+                    <button id="pauseBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition-colors hidden">
+                        <i class="fas fa-pause mr-2"></i> Pause
+                    </button>
+                    <button id="resetBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        <i class="fas fa-redo-alt mr-2"></i> Réinitialiser
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mb-6">
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="progressBar" class="bg-purple-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between mt-2 text-sm text-gray-600">
+                    <span>0 min</span>
+                    <span>15 min</span>
+                    <span>30 min</span>
+                </div>
+            </div>
+
+            <div class="flex justify-center mb-4">
+                <div id="timer" class="text-4xl font-bold text-purple-700">30:00</div>
+            </div>
+
+            <div id="currentActivity" class="text-center text-lg font-medium text-gray-700 mb-6">
+                Prêt à réveiller votre créativité
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="flex justify-between no-print">
+                <button id="prevBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Précédent
+                </button>
+                <div class="flex space-x-2">
+                    <span class="step-indicator px-3 py-1 rounded-full bg-purple-100 text-purple-800 cursor-pointer" data-step="0">1</span>
+                    <span class="step-indicator px-3 py-1 rounded-full bg-gray-200 text-gray-700 cursor-pointer" data-step="1">2</span>
+                    <span class="step-indicator px-3 py-1 rounded-full bg-gray-200 text-gray-700 cursor-pointer" data-step="2">3</span>
+                    <span class="step-indicator px-3 py-1 rounded-full bg-gray-200 text-gray-700 cursor-pointer" data-step="3">4</span>
+                </div>
+                <button id="nextBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Suivant <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Steps Container -->
+        <div class="routine-container">
+            <!-- Step 1: Capture Ideas -->
+            <div id="step1" class="step active">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <h2 class="text-2xl font-semibold text-purple-700 mb-4">Étape 1: Capturer les idées nocturnes (5 minutes)</h2>
+                    <p class="mb-4 text-gray-700">Commencez votre journée en capturant les idées créatives qui ont émergé pendant votre sommeil, avant qu'elles ne s'estompent.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="creative-card bg-purple-50 rounded-lg p-5 border-l-4 border-purple-400">
+                            <h3 class="font-bold text-purple-700 mb-2"><i class="fas fa-moon mr-2"></i> Exploration du rêve</h3>
+                            <p class="text-gray-700">Notez les fragments de rêves, images ou sensations qui persistent à votre réveil.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Gardez un carnet et un stylo à côté de votre lit</li>
+                                <li>Dès le réveil, avant toute distraction, notez les impressions, couleurs, émotions</li>
+                                <li>N'essayez pas de créer une narration cohérente, notez les fragments</li>
+                                <li>Soyez attentif aux motifs récurrents ou aux symboles inhabituels</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-blue-50 rounded-lg p-5 border-l-4 border-blue-400">
+                            <h3 class="font-bold text-blue-700 mb-2"><i class="fas fa-lightbulb mr-2"></i> Idées émergentes</h3>
+                            <p class="text-gray-700">Capturez les idées créatives qui ont surgi pendant la nuit ou au réveil.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Notez les idées de projets, solutions ou concepts apparus</li>
+                                <li>Esquissez rapidement les images mentales (même approximativement)</li>
+                                <li>Enregistrez vocalement vos idées si l'écriture est trop lente</li>
+                                <li>Ne jugez pas la qualité des idées à ce stade, capturez tout</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-green-50 rounded-lg p-5 border-l-4 border-green-400 md:col-span-2">
+                            <h3 class="font-bold text-green-700 mb-2"><i class="fas fa-leaf mr-2"></i> Exercice d'écriture automatique</h3>
+                            <p class="text-gray-700">Libérez votre esprit par 3 minutes d'écriture sans filtre ni jugement.</p>
+                            <div class="mt-3 space-y-3">
+                                <p class="text-gray-600">Prenez votre carnet et écrivez sans interruption pendant 3 minutes. Ne levez pas votre stylo du papier, ne vous souciez pas de la grammaire ou du sens. Si vous ne savez pas quoi écrire, répétez "Je ne sais pas quoi écrire" jusqu'à ce que de nouvelles idées émergent.</p>
+                                <p class="text-gray-600 italic">Conseil: Utilisez un chronomètre pour ne pas surveiller le temps. L'objectif est de court-circuiter votre mental critique et d'accéder à votre inconscient créatif.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                        <h3 class="font-bold text-yellow-700 mb-2"><i class="fas fa-star mr-2"></i> Conseil créatif:</h3>
+                        <p class="text-gray-700">Ne vous inquiétez pas si vos idées semblent étranges ou incomplètes. L'inconscient parle souvent en symboles et métaphores. Certaines des créations les plus innovantes ont émergé de rêves ou d'associations apparemment aléatoires. Salvador Dalí s'endormait avec une clé en main qui tombait dans une assiette, le réveillant pour capturer ses images hypnagogiques.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Sensory Awakening -->
+            <div id="step2" class="step">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <h2 class="text-2xl font-semibold text-purple-700 mb-4">Étape 2: Éveil sensoriel et inspiration (8 minutes)</h2>
+                    <p class="mb-4 text-gray-700">Activez vos sens pour éveiller votre créativité et établir de nouvelles connexions neuronales.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="creative-card bg-indigo-50 rounded-lg p-5 border-l-4 border-indigo-400">
+                            <h3 class="font-bold text-indigo-700 mb-2"><i class="fas fa-eye mr-2"></i> Stimulation visuelle (2 min)</h3>
+                            <p class="text-gray-700">Nourrissez votre esprit d'images inspirantes pour amorcer votre créativité.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Feuilletez un livre d'art ou un magazine visuel inspirant</li>
+                                <li>Observez les détails d'un objet naturel (plante, coquillage, cristal)</li>
+                                <li>Regardez les nuages, les ombres ou les motifs autour de vous</li>
+                                <li>Prenez 30 secondes pour observer un objet quotidien comme si c'était la première fois</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-red-50 rounded-lg p-5 border-l-4 border-red-400">
+                            <h3 class="font-bold text-red-700 mb-2"><i class="fas fa-music mr-2"></i> Éveil auditif (2 min)</h3>
+                            <p class="text-gray-700">Utilisez le son pour stimuler différentes zones cérébrales.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Écoutez un morceau de musique instrumental qui vous émeut</li>
+                                <li>Fermez les yeux et identifiez 5 sons différents dans votre environnement</li>
+                                <li>Créez un rythme simple en tapant sur différentes surfaces</li>
+                                <li>Fredonnez une mélodie improvisée qui reflète votre humeur</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-teal-50 rounded-lg p-5 border-l-4 border-teal-400">
+                            <h3 class="font-bold text-teal-700 mb-2"><i class="fas fa-hand-paper mr-2"></i> Éveil tactile et gustatif (2 min)</h3>
+                            <p class="text-gray-700">Intégrez le toucher et le goût pour une stimulation multimodale.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Manipulez différentes textures (tissus, papiers, objets naturels)</li>
+                                <li>Buvez consciemment une boisson aromatique (thé, café, infusion)</li>
+                                <li>Sentez une épice ou une huile essentielle stimulante</li>
+                                <li>Massez brièvement vos mains et vos doigts pour stimuler les terminaisons nerveuses</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-pink-50 rounded-lg p-5 border-l-4 border-pink-400">
+                            <h3 class="font-bold text-pink-700 mb-2"><i class="fas fa-random mr-2"></i> Associations inhabituelles (2 min)</h3>
+                            <p class="text-gray-700">Créez des connexions inattendues pour stimuler la pensée divergente.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Choisissez deux objets sans rapport dans votre environnement</li>
+                                <li>Trouvez au moins 3 façons de les relier ou de les combiner</li>
+                                <li>Inventez une brève histoire ou métaphore impliquant ces deux éléments</li>
+                                <li>Esquissez rapidement une fusion imaginaire de ces objets</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                        <h3 class="font-bold text-yellow-700 mb-2"><i class="fas fa-lightbulb mr-2"></i> Conseil créatif:</h3>
+                        <p class="text-gray-700">La créativité est souvent le résultat de connexions synesthésiques entre différents sens. En stimulant délibérément plusieurs modalités sensorielles, vous activez des régions cérébrales qui habituellement ne communiquent pas ensemble. Des recherches montrent que les personnes créatives ont généralement plus de connexions entre différentes aires cérébrales que la moyenne.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Creative Visualization -->
+            <div id="step3" class="step">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <h2 class="text-2xl font-semibold text-purple-700 mb-4">Étape 3: Visualisation créative (7 minutes)</h2>
+                    <p class="mb-4 text-gray-700">Utilisez le pouvoir de votre imagination pour explorer, développer et affiner vos idées créatives.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="creative-card bg-emerald-50 rounded-lg p-5 border-l-4 border-emerald-400">
+                            <h3 class="font-bold text-emerald-700 mb-2"><i class="fas fa-seedling mr-2"></i> Voyage imaginatif (3 min)</h3>
+                            <p class="text-gray-700">Explorez un environnement mental riche pour stimuler de nouvelles perspectives.</p>
+                            <div class="mt-3 space-y-3">
+                                <p class="text-gray-600">Fermez les yeux et imaginez-vous dans un lieu où les idées prennent forme physiquement. Ce peut être une forêt où les pensées poussent comme des plantes, un atelier magique, ou un paysage surréaliste. Explorez cet endroit, recherchez une idée qui vous attire particulièrement et examinez-la sous tous ses angles.</p>
+                                <p class="text-gray-600 italic">Guidage: Quelles couleurs, textures, sons ou sensations sont associés à cette idée? Comment évolue-t-elle lorsque vous l'observez? Que vous révèle-t-elle sur votre travail créatif actuel?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="creative-card bg-amber-50 rounded-lg p-5 border-l-4 border-amber-400">
+                            <h3 class="font-bold text-amber-700 mb-2"><i class="fas fa-user-friends mr-2"></i> Dialogue avec le mentor imaginaire (2 min)</h3>
+                            <p class="text-gray-700">Consultez un guide intérieur pour obtenir une nouvelle perspective.</p>
+                            <div class="mt-3 space-y-3">
+                                <p class="text-gray-600">Imaginez un dialogue avec un mentor créatif - réel ou imaginaire. Ce peut être un artiste que vous admirez, un personnage fictif, ou une version future de vous-même. Posez-lui une question précise concernant votre projet créatif actuel ou un blocage que vous rencontrez.</p>
+                                <p class="text-gray-600 italic">Guidage: Écoutez attentivement sa réponse. Que vous conseille-t-il? Quelle direction vous suggère-t-il? Notez ces insights dès que l'exercice est terminé.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="creative-card bg-purple-50 rounded-lg p-5 border-l-4 border-purple-400 md:col-span-2">
+                            <h3 class="font-bold text-purple-700 mb-2"><i class="fas fa-project-diagram mr-2"></i> Cartographie visuelle (2 min)</h3>
+                            <p class="text-gray-700">Visualisez les connections entre vos idées pour découvrir de nouvelles possibilités.</p>
+                            <div class="mt-3 space-y-3">
+                                <p class="text-gray-600">Sur une feuille de papier, écrivez ou dessinez une idée centrale qui vous occupe actuellement. Autour d'elle, placez les éléments connexes qui vous viennent à l'esprit. Tracez des lignes entre les éléments qui semblent liés. Ne censurez pas vos associations, même si elles paraissent étranges ou illogiques.</p>
+                                <p class="text-gray-600 italic">Guidage: Observez la carte que vous avez créée. Quels motifs émergent? Y a-t-il des connexions surprenantes? Entourez les zones où vous ressentez le plus d'énergie ou de curiosité - elles méritent une exploration plus approfondie.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                        <h3 class="font-bold text-yellow-700 mb-2"><i class="fas fa-brain mr-2"></i> Science de la créativité:</h3>
+                        <p class="text-gray-700">La visualisation active les mêmes réseaux neuronaux que l'action réelle. Einstein, Tesla et de nombreux scientifiques utilisaient des "expériences de pensée" pour résoudre des problèmes complexes. La visualisation permet d'accéder à des ressources inconscientes et de simuler différentes possibilités sans les limitations du monde physique. Lorsque vous visualisez, votre cerveau entre dans un état similaire à la méditation, facilitant les connections entre des idées apparemment sans rapport.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Creative Ritual -->
+            <div id="step4" class="step">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <h2 class="text-2xl font-semibold text-purple-700 mb-4">Étape 4: Rituels d'entrée en création (10 minutes)</h2>
+                    <p class="mb-4 text-gray-700">Établissez votre rituel personnel pour signaler à votre esprit qu'il est temps d'entrer dans l'état créatif optimal.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="creative-card bg-blue-50 rounded-lg p-5 border-l-4 border-blue-400">
+                            <h3 class="font-bold text-blue-700 mb-2"><i class="fas fa-door-open mr-2"></i> Préparation de l'espace (3 min)</h3>
+                            <p class="text-gray-700">Créez un environnement propice à la création.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Rangez et organisez votre espace de travail</li>
+                                <li>Disposez vos outils essentiels de façon esthétique et fonctionnelle</li>
+                                <li>Éliminez les distractions visuelles et sonores</li>
+                                <li>Ajoutez un élément inspirant (objet, image, citation)</li>
+                                <li>Ajustez l'éclairage pour créer l'ambiance appropriée</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-rose-50 rounded-lg p-5 border-l-4 border-rose-400">
+                            <h3 class="font-bold text-rose-700 mb-2"><i class="fas fa-dharmachakra mr-2"></i> Rituel de transition (3 min)</h3>
+                            <p class="text-gray-700">Marquez symboliquement le passage du mode quotidien au mode créatif.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Effectuez un geste symbolique (allumer une bougie, enfiler un vêtement spécifique)</li>
+                                <li>Pratiquez 1 minute de respiration profonde (4 sec. inspiration, 6 sec. expiration)</li>
+                                <li>Récitez une affirmation créative personnelle</li>
+                                <li>Effectuez un petit rituel physique (étirements, rotation des poignets)</li>
+                                <li>Touchez un objet qui symbolise votre créativité</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-cyan-50 rounded-lg p-5 border-l-4 border-cyan-400">
+                            <h3 class="font-bold text-cyan-700 mb-2"><i class="fas fa-tasks mr-2"></i> Définition d'intention (2 min)</h3>
+                            <p class="text-gray-700">Clarifiez ce que vous souhaitez accomplir dans votre session créative.</p>
+                            <ol class="mt-3 list-decimal list-inside text-gray-600 space-y-2">
+                                <li>Formulez une intention claire et réaliste pour cette session</li>
+                                <li>Divisez votre objectif en étapes concrètes et accessibles</li>
+                                <li>Définissez un critère de succès pour votre session</li>
+                                <li>Notez l'émotion ou l'état que vous souhaitez cultiver</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="creative-card bg-lime-50 rounded-lg p-5 border-l-4 border-lime-400">
+                            <h3 class="font-bold text-lime-700 mb-2"><i class="fas fa-feather-alt mr-2"></i> Exercice d'amorçage (2 min)</h3>
+                            <p class="text-gray-700">Lancez le moteur créatif avec un exercice simple et sans pression.</p>
+                            <div class="mt-3 space-y-3">
+                                <p class="text-gray-600">Commencez par une activité créative très simple liée à votre domaine:</p>
+                                <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                    <li>Écrivains: Écrivez 3 phrases commençant par "Je me souviens..."</li>
+                                    <li>Artistes visuels: Tracez 10 lignes ou formes rapides et spontanées</li>
+                                    <li>Musiciens: Jouez une gamme ou un motif simple en variant l'émotion</li>
+                                    <li>Designers: Esquissez 3 variations rapides d'une forme basique</li>
+                                </ul>
+                                <p class="text-gray-600 italic">L'objectif n'est pas de créer quelque chose de parfait, mais simplement d'entrer en mouvement.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                        <h3 class="font-bold text-yellow-700 mb-2"><i class="fas fa-magic mr-2"></i> Pourquoi les rituels fonctionnent:</h3>
+                        <p class="text-gray-700">Les rituels créent des déclencheurs neurobiologiques qui signalent à votre cerveau qu'il est temps d'entrer dans un état particulier. Avec le temps, ces rituels construisent des associations puissantes qui vous permettent d'accéder plus rapidement et plus profondément à votre état créatif optimal. Ils réduisent également l'anxiété et la résistance en créant une structure familière et sécurisante. Des créateurs comme Hemingway, Mozart, et Marina Abramović avaient tous des rituels spécifiques qui marquaient leur entrée dans l'espace créatif.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div id="conclusion" class="step">
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                    <h2 class="text-2xl font-semibold text-purple-700 mb-4">Félicitations !</h2>
+                    <p class="mb-4 text-gray-700">Vous avez complété votre routine matinale créative de 30 minutes. Votre esprit est maintenant éveillé, inspiré et prêt à créer.</p>
+                    
+                    <div class="p-5 bg-purple-50 rounded-lg border-l-4 border-purple-400 mb-6">
+                        <h3 class="font-bold text-purple-700 mb-2">Réflexion finale:</h3>
+                        <p class="text-gray-600 mb-3">Prenez un moment pour noter:</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>Quelle partie de la routine vous a semblé la plus énergisante aujourd'hui?</li>
+                            <li>Quelle idée ou intuition nouvelle avez-vous découverte?</li>
+                            <li>Comment pourriez-vous intégrer cette découverte dans votre travail créatif?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="p-5 bg-indigo-50 rounded-lg border-l-4 border-indigo-400 mb-6">
+                        <h3 class="font-bold text-indigo-700 mb-2">Conseils pour prolonger l'état créatif:</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>Limitez les interactions numériques pendant au moins 30 minutes après cette routine</li>
+                            <li>Si possible, commencez immédiatement à travailler sur un projet créatif</li>
+                            <li>Faites une pause créative de 5 minutes toutes les heures pendant la journée</li>
+                            <li>Notez les idées qui émergent spontanément durant la journée</li>
+                            <li>Révisez vos notes de la routine matinale avant de vous coucher</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="text-center no-print">
+                        <button id="restartBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors text-lg">
+                            <i class="fas fa-redo mr-2"></i> Recommencer la routine
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer with brand -->
+        <footer class="brand-footer rounded-lg py-4 px-6 text-center mt-8 mb-4">
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-lg font-semibold text-purple-800">Ai-Me | Au Pays de Marie</p>
+                <p class="text-sm text-gray-600 mt-1">Votre partenaire pour l'épanouissement personnel et créatif</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Elements
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const timerEl = document.getElementById('timer');
+        const progressBar = document.getElementById('progressBar');
+        const currentActivity = document.getElementById('currentActivity');
+        const stepIndicators = document.querySelectorAll('.step-indicator');
+        
+        // Steps
+        const steps = [
+            document.getElementById('step1'),
+            document.getElementById('step2'),
+            document.getElementById('step3'),
+            document.getElementById('step4'),
+            document.getElementById('conclusion')
+        ];
+        
+        // Timer config
+        const totalTime = 30 * 60; // 30 minutes in seconds
+        const stepTimes = [5 * 60, 8 * 60, 7 * 60, 10 * 60]; // Time per step in seconds
+        let remainingTime = totalTime;
+        let timerInterval;
+        let isRunning = false;
+        let currentStep = 0;
+        
+        // Functions
+        function updateTimerDisplay(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+        
+        function updateProgressBar() {
+            const progress = 100 - (remainingTime / totalTime * 100);
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        function updateCurrentStep() {
+            let elapsedTime = totalTime - remainingTime;
+            let stepTime = 0;
+            
+            for (let i = 0; i < stepTimes.length; i++) {
+                stepTime += stepTimes[i];
+                if (elapsedTime < stepTime) {
+                    if (currentStep !== i) {
+                        currentStep = i;
+                        showStep(currentStep);
+                    }
+                    return;
+                }
+            }
+            
+            if (currentStep !== 4) {
+                currentStep = 4;
+                showStep(currentStep);
+            }
+        }
+        
+        function updateStepIndicators() {
+            stepIndicators.forEach((indicator, index) => {
+                if (index === currentStep) {
+                    indicator.classList.remove('bg-gray-200', 'text-gray-700');
+                    indicator.classList.add('bg-purple-100', 'text-purple-800');
+                } else {
+                    indicator.classList.remove('bg-purple-100', 'text-purple-800');
+                    indicator.classList.add('bg-gray-200', 'text-gray-700');
+                }
+            });
+        }
+        
+        function showStep(stepIndex) {
+            if (stepIndex < 0) stepIndex = 0;
+            if (stepIndex > 4) stepIndex = 4;
+            
+            currentStep = stepIndex;
+            
+            steps.forEach((step, index) => {
+                if (index === stepIndex) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+            
+            updateStepIndicators();
+            
+            // Update activity text
+            switch(stepIndex) {
+                case 0:
+                    currentActivity.textContent = "Capturez vos idées nocturnes et intuitions matinales";
+                    break;
+                case 1:
+                    currentActivity.textContent = "Éveillez vos sens pour stimuler votre créativité";
+                    break;
+                case 2:
+                    currentActivity.textContent = "Visualisez et développez vos idées créatives";
+                    break;
+                case 3:
+                    currentActivity.textContent = "Mettez en place votre rituel d'entrée en création";
+                    break;
+                case 4:
+                    currentActivity.textContent = "Félicitations ! Votre esprit créatif est maintenant activé";
+                    stopTimer();
+                    break;
+            }
+            
+            // Update navigation buttons
+            prevBtn.disabled = stepIndex === 0;
+            prevBtn.classList.toggle('opacity-50', stepIndex === 0);
+            nextBtn.disabled = stepIndex === 4;
+            nextBtn.classList.toggle('opacity-50', stepIndex === 4);
+        }
+        
+        function startTimer() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            startBtn.classList.add('hidden');
+            pauseBtn.classList.remove('hidden');
+            
+            timerInterval = setInterval(() => {
+                if (remainingTime > 0) {
+                    remainingTime--;
+                    updateTimerDisplay(remainingTime);
+                    updateProgressBar();
+                    updateCurrentStep();
+                } else {
+                    stopTimer();
+                    showStep(4); // Show conclusion
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            if (!isRunning) return;
+            
+            isRunning = false;
+            clearInterval(timerInterval);
+            startBtn.classList.remove('hidden');
+            pauseBtn.classList.add('hidden');
+        }
+        
+        function stopTimer() {
+            pauseTimer();
+            startBtn.classList.add('hidden');
+        }
+        
+        function resetTimer() {
+            pauseTimer();
+            remainingTime = totalTime;
+            updateTimerDisplay(remainingTime);
+            progressBar.style.width = '0%';
+            currentStep = 0;
+            showStep(currentStep);
+            currentActivity.textContent = "Prêt à réveiller votre créativité";
+            startBtn.classList.remove('hidden');
+        }
+        
+        function calculateRemainingTime() {
+            // Calculate remaining time based on current step
+            let timeForCompletedSteps = 0;
+            for (let i = 0; i < currentStep; i++) {
+                timeForCompletedSteps += stepTimes[i];
+            }
+            
+            return totalTime - timeForCompletedSteps;
+        }
+        
+        // Event listeners
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
+        restartBtn.addEventListener('click', resetTimer);
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                showStep(currentStep - 1);
+                
+                // Adjust timer if it's running
+                if (isRunning) {
+                    remainingTime = calculateRemainingTime();
+                    updateTimerDisplay(remainingTime);
+                    updateProgressBar();
+                }
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < 4) {
+                showStep(currentStep + 1);
+                
+                // Adjust timer if it's running
+                if (isRunning) {
+                    remainingTime = calculateRemainingTime();
+                    updateTimerDisplay(remainingTime);
+                    updateProgressBar();
+                }
+            }
+        });
+        
+        stepIndicators.forEach(indicator => {
+            indicator.addEventListener('click', () => {
+                const stepIndex = parseInt(indicator.dataset.step);
+                showStep(stepIndex);
+                
+                // Adjust timer if it's running
+                if (isRunning) {
+                    remainingTime = calculateRemainingTime();
+                    updateTimerDisplay(remainingTime);
+                    updateProgressBar();
+                }
+            });
+        });
+        
+        // Initialization
+        updateTimerDisplay(remainingTime);
+        showStep(0);
+    </script>
+</body>
+</html>
